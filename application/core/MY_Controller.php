@@ -32,8 +32,7 @@ class Application extends CI_Controller
 	 */
 	function render($template = 'template')
 	{
-         $this->data['menubar'] = $this->parser->parse('_menubar', $this->config->item('menu_choices'),true);
-        // use layout content if provided
+        $this->data['menubar'] = $this->parser->parse('_menubar', $this->config->item('menu_choices'),true);
         if (!isset($this->data['content']))
             $this->data['content'] = $this->parser->parse($this->data['pagebody'], $this->data, true);
         $this->parser->parse($template, $this->data);
