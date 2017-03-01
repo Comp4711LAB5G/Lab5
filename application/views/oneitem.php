@@ -1,5 +1,3 @@
-
-
 <tr>
         <td>{id}</td>
         <td>{task}</td>
