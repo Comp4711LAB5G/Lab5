@@ -1,21 +1,3 @@
--- phpMyAdmin SQL Dump
--- version 4.6.3
--- https://www.phpmyadmin.net/
---
--- Host: localhost
--- Generation Time: Feb 14, 2017 at 08:40 AM
--- Server version: 5.7.13
--- PHP Version: 7.0.8
-
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
 --
 -- Database: `todo`
 --
@@ -23,7 +5,28 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `flags`
+-- 表的结构 `ci_sessions`
+--
+
+DROP TABLE IF EXISTS `ci_sessions`;
+CREATE TABLE `ci_sessions` (
+  `id` varchar(128) NOT NULL,
+  `ip_address` varchar(45) NOT NULL,
+  `timestamp` int(10) UNSIGNED NOT NULL DEFAULT '0',
+  `data` blob NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- 转存表中的数据 `ci_sessions`
+--
+
+INSERT INTO `ci_sessions` (`id`, `ip_address`, `timestamp`, `data`) VALUES
+('v7l3aq0pj468k168ab4el6pv68j35tdv', '127.0.0.1', 1488929919, 0x5f5f63695f6c6173745f726567656e65726174657c693a313438383932393931393b);
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `flags`
 --
 
 DROP TABLE IF EXISTS `flags`;
@@ -33,7 +36,7 @@ CREATE TABLE `flags` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `flags`
+-- 转存表中的数据 `flags`
 --
 
 INSERT INTO `flags` (`id`, `meaning`) VALUES
@@ -42,7 +45,7 @@ INSERT INTO `flags` (`id`, `meaning`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `groups`
+-- 表的结构 `groups`
 --
 
 DROP TABLE IF EXISTS `groups`;
@@ -52,7 +55,7 @@ CREATE TABLE `groups` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `groups`
+-- 转存表中的数据 `groups`
 --
 
 INSERT INTO `groups` (`id`, `name`) VALUES
@@ -64,7 +67,7 @@ INSERT INTO `groups` (`id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `priorities`
+-- 表的结构 `priorities`
 --
 
 DROP TABLE IF EXISTS `priorities`;
@@ -74,7 +77,7 @@ CREATE TABLE `priorities` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `priorities`
+-- 转存表中的数据 `priorities`
 --
 
 INSERT INTO `priorities` (`id`, `name`) VALUES
@@ -85,7 +88,7 @@ INSERT INTO `priorities` (`id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `sizes`
+-- 表的结构 `sizes`
 --
 
 DROP TABLE IF EXISTS `sizes`;
@@ -95,7 +98,7 @@ CREATE TABLE `sizes` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `sizes`
+-- 转存表中的数据 `sizes`
 --
 
 INSERT INTO `sizes` (`id`, `name`) VALUES
@@ -106,7 +109,7 @@ INSERT INTO `sizes` (`id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `statuses`
+-- 表的结构 `statuses`
 --
 
 DROP TABLE IF EXISTS `statuses`;
@@ -116,7 +119,7 @@ CREATE TABLE `statuses` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `statuses`
+-- 转存表中的数据 `statuses`
 --
 
 INSERT INTO `statuses` (`id`, `name`) VALUES
@@ -126,7 +129,7 @@ INSERT INTO `statuses` (`id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tasks`
+-- 表的结构 `tasks`
 --
 
 DROP TABLE IF EXISTS `tasks`;
@@ -142,7 +145,7 @@ CREATE TABLE `tasks` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tasks`
+-- 转存表中的数据 `tasks`
 --
 
 INSERT INTO `tasks` (`id`, `task`, `priority`, `size`, `group`, `deadline`, `status`, `flag`) VALUES
@@ -165,6 +168,13 @@ INSERT INTO `tasks` (`id`, `task`, `priority`, `size`, `group`, `deadline`, `sta
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `ci_sessions`
+--
+ALTER TABLE `ci_sessions`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `ci_sessions_timestamp` (`timestamp`);
 
 --
 -- Indexes for table `flags`
@@ -205,11 +215,11 @@ ALTER TABLE `tasks`
   ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- 在导出的表使用AUTO_INCREMENT
 --
 
 --
--- AUTO_INCREMENT for table `tasks`
+-- 使用表AUTO_INCREMENT `tasks`
 --
 ALTER TABLE `tasks`
   MODIFY `id` int(2) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
