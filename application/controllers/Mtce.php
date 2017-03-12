@@ -7,7 +7,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Mtce extends Application {
-        private $items_per_page = 10;
+       private $items_per_page = 10;
         
        public function index()
         {
@@ -16,8 +16,6 @@ class Mtce extends Application {
         // Show a single page of todo items
         private function show_page($tasks)
         {
-            
-            
             $role = $this->session->userdata('userrole');
             $this->data['pagetitle'] = 'TODO List Maintenance ('. $role . ')';
             
@@ -29,12 +27,14 @@ class Mtce extends Application {
 				$task->status = $this->statuses->get($task->status)->name;
                 
                 
-                if ($role == ROLE_OWNER)
-                        $result .= $this->parser->parse('oneitemx', (array) $task, true);
-                else
-                        $result .= $this->parser->parse('oneitem', (array) $task, true);
+              if ($role == ROLE_OWNER)
+                $result .= $this->parser->parse('oneitemx', (array) $task, true);
+              else
+                $result .= $this->parser->parse('oneitem', (array) $task, true);
             }
+            
             $this->data['display_tasks'] = $result;
+        
 
             // and then pass them on
             $this->data['pagebody'] = 'itemlist';
@@ -60,9 +60,9 @@ class Mtce extends Application {
             $role = $this->session->userdata('userrole');
             
             $this->data['pagination'] = $this->pagenav($num);
-            if ($role == ROLE_OWNER) 
-                $this->data['pagination'] .= $this->parser->parse('itemadd',[], true);
-            $this->show_page($tasks);
+            if ($role == ROLE_OWNER)
+            $this->data['pagination'] .= $this->parser->parse('itemadd',[], true);
+		$this->show_page($tasks);
         }
         // Build the pagination navbar
         private function pagenav($num) {
@@ -130,31 +130,34 @@ class Mtce extends Application {
         // handle form submission
         public function submit()
         {
-            // setup for validation
-            $this->load->library('form_validation');
-            $this->form_validation->set_rules($this->tasks->rules());
+           
+                // setup for validation
+          $this->load->library('form_validation');
+          $this->form_validation->set_rules($this->tasks->rules());
 
-            // retrieve & update data transfer buffer
-            $task = (array) $this->session->userdata('task');
-            $task = array_merge($task, $this->input->post());
-            $this->session->set_userdata('task', (object) $task);
+          // retrieve & update data transfer buffer
+          $task = (array) $this->session->userdata('task');
+          $task = array_merge($task, $this->input->post());
+          $task = (object) $task;  // convert back to object
+          $this->session->set_userdata('task', (object) $task);
 
-            // validate away
-            if ($this->form_validation->run())
-            {
-                    if (empty($task->id))
-                {
-                    $this->tasks->add($task);
-                    $this->alert('Task ' . $task->id . ' added', 'success');
-                } else
-                {
-                    $this->tasks->update($task);
-                    $this->alert('Task ' . $task->id . ' updated', 'success');
-                }
-             } else {
-                $this->alert('<strong>Validation errors!<strong><br>' . validation_errors(), 'danger');
+          // validate away
+          if ($this->form_validation->run())
+          {
+              if (empty($task->id))
+              {
+                  $this->tasks->add($task);
+                  $this->alert('Task ' . $task->id . ' added', 'success');
+              } else
+              {
+                  $this->tasks->update($task);
+                  $this->alert('Task ' . $task->id . ' updated', 'success');
               }
-              $this->showit();
+          } else
+          {
+              $this->alert('<strong>Validation errors!<strong><br>' . validation_errors(), 'danger');
+          }
+          $this->showit();
         }
         
          function cancel() {
