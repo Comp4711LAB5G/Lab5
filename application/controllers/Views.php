@@ -40,7 +40,9 @@ class Views extends Application
     function makeCategorizedPanel($tasks)
     {
         $parms = ['display_tasks' => $this->tasks->getCategorizedTasks()];
-        return $this->parser->parse('by_category', $parms, true);
+        $role = $this->session->userdata('userrole');
+        $parms['completer'] = ($role == ROLE_OWNER) ? '/views/complete' : '#';
+	return $this->parser->parse('by_category', $parms, true);
     }
 }
 
@@ -57,7 +59,7 @@ function orderByCategory($a, $b)
 // complete flagged items
 function complete() {
     $role = $this->session->userdata('userrole');
-    if ($role != ROLE_OWNER) redirect('/work');
+    if ($role != ROLE_OWNER) redirect('/views');
 
     // loop over the post fields, looking for flagged tasks
     foreach($this->input->post() as $key=>$value) {
